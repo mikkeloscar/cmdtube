@@ -60,10 +60,17 @@ def spawn_player(player_cmd, url):
 
 def read_config():
     config = ConfigParser()
-    files = (join(getenv("XDG_CONFIG_DIRS"), "cmdtube", "cmdtube.conf"),
-             join("ect", "xdg", "cmdtube", "cmdtube.conf"),
-             join(getenv("XDG_CONFIG_HOME"), "cmdtube", "config"),
-             join(getenv("HOME"), ".config", "cmdtube", "config"))
+    files = []
+    if getenv("XDG_CONFIG_DIRS"):
+        files.append(join(getenv("XDG_CONFIG_DIRS"), "cmdtube",
+                "cmdtube.conf"))
+    files.append(join("/ect", "xdg", "cmdtube", "cmdtube.conf"))
+    if getenv("XDG_CONFIG_HOME"):
+        files.append(join(getenv("XDG_CONFIG_HOME"), "cmdtube", "config"))
+    if getenv("HOME"):
+        files.append(join(getenv("HOME"), ".config", "cmdtube", "config"))
+
+    print files
     config.read(files)
 
     return config
