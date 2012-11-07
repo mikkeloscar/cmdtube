@@ -60,8 +60,10 @@ def spawn_player(player_cmd, url):
 
 def read_config():
     config = ConfigParser()
-    files = (join(getenv("XDG_CONFIG_DIRS"), "cmdtube.conf"),
-             join(getenv("XDG_CONFIG_HOME"), "cmdtube.conf"))
+    files = (join(getenv("XDG_CONFIG_DIRS"), "cmdtube", "cmdtube.conf"),
+             join("ect", "xdg", "cmdtube", "cmdtube.conf"),
+             join(getenv("XDG_CONFIG_HOME"), "cmdtube", "config"),
+             join(getenv("HOME"), ".config", "cmdtube", "config"))
     config.read(files)
 
     return config
@@ -74,7 +76,8 @@ def run(config,args):
         sys.exit(1)
     s.search(" ".join(args))
 
-    player_cmd = config.get("options", "player_cmd") 
+    player = config.get("options", "player")
+    player_cmd = config.get("players", player)
 
     while True:
         c = raw_input("\nSelect video (default=1): ")
@@ -98,13 +101,13 @@ def main():
 
     parser = OptionParser("cmdtube")
     parser.add_option("-p", "--player", action="store",
-            dest="player_cmd", help="player command",
+            dest="player", help="Select player",
             default=None)
 
     (options, args) = parser.parse_args()
 
-    if options.player_cmd is not None:
-        config.set("options", "player_cmd", options.player_cmd)
+    if options.player is not None:
+        config.set("options", "player", options.player)
 
     try:
         run(config,args)

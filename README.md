@@ -1,11 +1,17 @@
 # cmdtube
 
-Simple commandline youtube search and player.
+Simple commandline youtube search and play.
 
 ## Dependencies
-* youtube-dl
 * gdata
-* mplayer (optional - default player)
+
+#### Players
+* youtube-dl + mplayer
+* vlc
+
+You can either use `mplayer` + `youtube-dl` or `vlc` as the player. It is also
+possible to use a different player, check `cmdtube.conf` for how to setup the
+player.
 
 ## Installation
 
@@ -15,12 +21,29 @@ Install `cmdtube-git` from AUR
 
 ## Configuration
 
-Cmdtube looks for `cmdtube.conf` in `$XDG_CONFIG_HOME` (or `~/.config` if
-unset) and falls back to `$XDG_CONFIG_DIRS`.
+### System config
+
+cmdtube honors a system-wide config file. It first looks at
+
+    $XDG_CONFIG_DIRS/cmdtube/cmdtube.conf
+
+and fall back to
+
+    /etc/xdg/cmdtube/cmdtube.conf
+
+### User config
+
+Userconfig override the system config. Cmdtube will look for
+
+    $XDG_CONFIG_HOME/cmdtube/config
+
+and fall back to
+
+    $HOME/.config/cmdtube/config
 
 ## Usage
 
-    $ cmdtube search-term
+    $ cmdtube [OPTIONS] SEARCH-TERM
 
 ## License
 Copyright (C) 2012  Mikkel Oscar Lyderik
