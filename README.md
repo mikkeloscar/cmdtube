@@ -3,14 +3,14 @@
 Simple commandline youtube search and play.
 
 ## Dependencies
-* gdata
+* python2-gdata
 
-#### Players
+#### Players (only one is needed)
 * youtube-dl + mplayer
 * vlc
 
 You can either use `mplayer` + `youtube-dl` or `vlc` as the player. It is also
-possible to use a different player, check `cmdtube.conf` for how to setup the
+possible to use a different player, check `cmdtube.conf` for how to setup a new
 player.
 
 ## Installation
@@ -18,6 +18,25 @@ player.
 ### Archlinux
 
 Install `cmdtube-git` from AUR
+
+### Ubuntu-ish
+
+Install deps. Substitute `youtube-dl` and `mplayer` for `vlc` if you like.
+
+    $ sudo apt-get install python-gdata youtube-dl mplayer
+
+Install cmdtube
+
+    $ cd cmdtube
+    $ sudo python setup.py install
+
+Install config to `$XDG_CONFIG_DIRS` for system wide config.
+
+    $ sudo install -Dm644 cmdtube.conf "$XDG_CONFIG_DIRS/cmdtube/cmdtube.conf
+or for single user, to `$XDG_CONFIG_HOME`
+
+    $ install -Dm644 cmdtube.conf "$XDG_CONFIG_HOME/cmdtube/config"
+
 
 ## Configuration
 
