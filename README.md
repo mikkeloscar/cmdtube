@@ -25,15 +25,18 @@ Install deps. Substitute `youtube-dl` and `mplayer` for `vlc` if you like.
 
     $ sudo apt-get install python-gdata youtube-dl mplayer
 
-Install cmdtube
+Clone and install cmdtube
 
+    $ git clone https://github.com/mikkeloscar/cmdtube.git 
     $ cd cmdtube
     $ sudo python setup.py install
 
 Install config to `$XDG_CONFIG_DIRS` for system wide config.
 
     $ sudo install -Dm644 cmdtube.conf "$XDG_CONFIG_DIRS/cmdtube/cmdtube.conf
-or for single user, to `$XDG_CONFIG_HOME`
+
+or for single user. Install to `$XDG_CONFIG_HOME` (install to `~/.config` if
+`$XDG_CONFIG_HOME` isn't set (it isn't in ubuntu 12.10).
 
     $ install -Dm644 cmdtube.conf "$XDG_CONFIG_HOME/cmdtube/config"
 
