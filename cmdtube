@@ -1,0 +1,117 @@
+#!/usr/bin/env python
+
+import sys
+import os
+import re
+
+import gdata.youtube
+import gdata.youtube.service
+
+from ConfigParser import ConfigParser
+from optparse import OptionParser
+from os import getenv
+from os.path import join
+
+
+class YoutubeSearch:
+
+    def __init__(self,max_results=15,start_index=1):
+        self.client = gdata.youtube.service.YouTubeService()
+        self.query = gdata.youtube.service.YouTubeVideoQuery()
+
+        self.query.max_results = max_results
+        self.query.start_index = start_index
+        self.query.racy = "exclude"
+        self.query.format = "5"
+        self.query.orderby = "relevance"
+
+    def search(self,query):
+        """
+        Search query
+        """
+        
+        self.query.vq = query
+
+        try:
+            feed = self.client.YouTubeQuery(self.query)
+            self.list(feed)
+        except gdata.service.RequestError:
+            print "Error"
+
+    def list(self,feed):
+        i = 1
+        self.videos = {}
+        for entry in feed.entry:
+            url = ""
+            for item in entry.media.content:
+                format_found = item.extension_attributes[
+                        "{http://gdata.youtube.com/schemas/2007}format"]
+                if format_found == self.query.format:
+                    url = item.url
+            self.videos[i] = {"title": entry.title.text, "url": url}
+            print "%d) %s" % (i, entry.title.text)
+            i = i + 1
+
+
+def spawn_player(player_cmd, url):
+    cmd = re.sub(r'%youtube_url%', url, player_cmd)
+    os.system(cmd)
+
+
+def read_config():
+    config = ConfigParser()
+    files = (join(getenv("XDG_CONFIG_HOME"), "cmdtube.conf"),
+             join(getenv("XDG_CONFIG_DIRS"), "cmdtube.conf"))
+    config.read(files)
+
+    return config
+
+
+def run(config,args):
+    s = YoutubeSearch()
+    if len(args) == 0:
+        print "No searchterm."
+        sys.exit(1)
+    s.search(" ".join(args))
+
+    player_cmd = config.get("options", "player_cmd") 
+
+    while True:
+        c = raw_input("\nSelect video (default=1): ")
+
+        if c == "":
+            c = 1
+        elif c == "q":
+            sys.exit(0)
+        else:
+            c = int(c)
+
+        if c in s.videos:
+            url = s.videos[c]["url"]
+            spawn_player(player_cmd, url)
+            sys.exit(0)
+        else:
+            print "Video not found."
+
+
+def main():
+    config = read_config()
+
+    parser = OptionParser("cmdtube")
+    parser.add_option("-p", "--player", action="store",
+            dest="player_cmd", help="player command",
+            default=None)
+
+    (options, args) = parser.parse_args()
+
+    if options.player_cmd is not None:
+        config.set("options", "player_cmd", options.player_cmd)
+
+    try:
+        run(config,args)
+    except KeyboardInterrupt:
+        print "\nInterrupt signal received\n"
+
+
+if __name__ == "__main__":
+    main()
