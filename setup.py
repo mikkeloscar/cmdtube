@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="cmdtube",
-    version="1.0",
+    version="0.1",
     author="Mikkel Oscar Lyderik",
     author_email="mikkeloscar@gmail.com",
     license="GPL",
