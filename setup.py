@@ -7,7 +7,7 @@ setup(
     author_email="mikkeloscar@gmail.com",
     license="GPL",
     platform="all",
-    description="Simple commandline youtube search and player",
+    description="Simple commandline youtube search and play",
     scripts=['cmdtube'],
     packages=find_packages(),
 )
