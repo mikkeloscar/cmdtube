@@ -70,7 +70,6 @@ def read_config():
     if getenv("HOME"):
         files.append(join(getenv("HOME"), ".config", "cmdtube", "config"))
 
-    print files
     config.read(files)
 
     return config
