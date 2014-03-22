@@ -29,14 +29,14 @@ class YoutubeSearch:
         """
         Search query
         """
-        
+
         self.query.vq = query
 
         try:
             feed = self.client.YouTubeQuery(self.query)
             self.list(feed)
         except gdata.service.RequestError:
-            print "Error"
+            print("Error")
 
     def list(self,feed):
         i = 1
@@ -49,7 +49,7 @@ class YoutubeSearch:
                 if format_found == self.query.format:
                     url = item.url
             self.videos[i] = {"title": entry.title.text, "url": url}
-            print "%d) %s" % (i, entry.title.text)
+            print("%d) %s" % (i, entry.title.text))
             i = i + 1
 
 
@@ -78,7 +78,7 @@ def read_config():
 def run(config,args):
     s = YoutubeSearch()
     if len(args) == 0:
-        print "No searchterm."
+        print("No searchterm.")
         sys.exit(1)
     s.search(" ".join(args))
 
@@ -99,7 +99,7 @@ def run(config,args):
             url = s.videos[c]["url"]
             sys.exit(spawn_player(player_cmd, url))
         else:
-            print "Video not found."
+            print("Video not found.")
 
 
 def main():
@@ -118,7 +118,7 @@ def main():
     try:
         run(config,args)
     except KeyboardInterrupt:
-        print "\nInterrupt signal received\n"
+        print("\nInterrupt signal received\n")
 
 
 if __name__ == "__main__":
