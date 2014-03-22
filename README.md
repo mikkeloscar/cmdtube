@@ -6,12 +6,13 @@ Simple commandline youtube search and play.
 * python2-gdata
 
 #### Players (only one is needed)
+* mpv
 * youtube-dl + mplayer
 * vlc
 
-You can either use `mplayer` + `youtube-dl` or `vlc` as the player. It is also
-possible to use a different player, check `cmdtube.conf` for how to setup a new
-player.
+You can either use `mpv`, `vlc` or `mplayer` + `youtube-dl` as the player. It
+is also possible to use a different player, check `cmdtube.conf` for how to
+setup a new player.
 
 ## Installation
 
